@@ -9,7 +9,7 @@ You can run this experiemnt on the [Chameleon](https://chameleoncloud.org/) test
 
 ## Background
 
-### Future of Agriculutral
+### My Application 
 
 ### Edge vs Cloud
 
