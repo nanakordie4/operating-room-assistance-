@@ -44,7 +44,7 @@ Let's start off with our Raspberry Pi 4 experiment!
 
 In order to complete this experiment you must have a lease for a Raspberry Pi 4. By accessing [GUI for CHI@Edge](https://chi.edge.chameleoncloud.org/project/container/containers), there you can obtain a lease for a Raspberry Pi 4. Once you are sure you have a lease, you can run the [Edge- CPU experiment](https://github.com/teaching-on-testbeds/edge-cpu-inference/) on a Chameleon Jupyter environment. 
 
-Using the provided model_quant_updated.tflite., our machine learning model, and the label.txt file upload them to the image_model folder within the Jupyter environement. Also include the all test images provided into that same folder. The experiement should run pretty smoothly! Be sure to run each cell one at a time and fill in the required information. When prompted to fill the lease ID and project ID, the specfic number on the top left handside of CHI@Edge, refer back to the [GUI for CHI@Edge](https://chi.edge.chameleoncloud.org/project/container/containers)
+Using the provided model_quant_updated.tflite. , our machine learning model, and the label.txt file upload them to the image_model folder within the Jupyter environement. Also include the all test images provided into that same folder. The experiement should run pretty smoothly! Be sure to run each cell one at a time and fill in the required information. When prompted to fill the lease ID and project ID, the specfic number on the top left handside of CHI@Edge, refer back to the [GUI for CHI@Edge](https://chi.edge.chameleoncloud.org/project/container/containers)
 
 ### Measure inference time at CHI@Edge
 
@@ -62,11 +62,12 @@ Now for our GPU experiment!
 
 In order to complete this experiment you need another lease but for a RTX6000 GPU. Similarly you can access it at [GUI for CHI@UC](https://chi.uc.chameleoncloud.org/project/leases/), there you can obtain a lease for a RTX6000 GPU. Once you are sure you have a lease, you can run the [Cloud- GPU experiment](https://github.com/teaching-on-testbeds/cloud-gpu-inference) on a Chameleon Jupyter environment. 
 
-Using the provided model.h5, it's specifically for the cloud scenario, and the label.txt file upload them to the image_model folder within the Jupyter environement. Also include the all test images provided into that same folder. The experiement should run pretty smoothly! Be sure to run each cell one at a time and fill in the required information. When prompted to fill the lease ID and project ID, the specfic number on the top left handside of CHI@Edge, refer back to the [GUI for CHI@UC](https://github.com/teaching-on-testbeds/cloud-gpu-inference)
+Using the provided model.h5 , the specfic machine learningmodel for GPU  and the label.txt file again upload them to the image_model folder within the Jupyter environement. Also include the all test images provided into that same folder. The experiement should run pretty smoothly! Be sure to run each cell one at a time and fill in the required information. When prompted to fill the lease ID and project ID, the specfic number on the top left handside of CHI@UC, refer back to the [GUI for CHI@UC](https://github.com/teaching-on-testbeds/cloud-gpu-inference)
 
 ### Measure inference time at CHI@UC
 how to copy models to chi@edge provide test images etc
 add folder, name it edge, in folder put h5 model, text.txt, test images
+
 ### Set up resources at KVM@TACC
 set up stuff
 ### Measure network transfer times at KVM@TACC
