@@ -49,8 +49,8 @@ Using the provided model_quant_updated.tflite., our machine learning model, and 
 ### Measure inference time at CHI@Edge
 
 When finding out the inference time for a particular model we're using it's important the path used in the code is correct. If a file or folder is spelled incorrectly the experiement won't work. When you reach line 36 it should mirror this:
-[result = container.execute(my_container.uuid, 'python /root/image_model/model.py --model model_200_quant_updated.tflite --label labels.txt --image 1.jpg ')
-print(result['output'])]
+" result = container.execute(my_container.uuid, 'python /root/image_model/model.py --model model_200_quant_updated.tflite --label labels.txt --image 1.jpg ')
+print(result['output'])"
 
 
 
