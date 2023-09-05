@@ -31,6 +31,9 @@ The devices used to make the predictions are Coral Dev Board with CPU, Coral Dev
 
 ## Results
 
+[image](https://github.com/nanakordie4/operating-room-assistance-/assets/141275613/72f2efca-b47a-42f7-8913-8c766810e2a5)
+
+
 ## Run my experiment
 
 ### Set up resources at CHI@Edge
