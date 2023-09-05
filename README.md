@@ -50,13 +50,13 @@ Using the provided model_quant_updated.tflite , our machine learning model, and 
 
 When finding out the inference time for a particular model it's important the path used in the code is correct. If a file, folder, and or model is spelled incorrectly the experiement won't work. When you reach line 36 it should mirror something similar to this:
 
- from IPython.display import Image
-Image('image_model/1.jpg') 
+< from IPython.display import Image
+Image('image_model/1.jpg') > 
 
 We want the model to know exacty what image to run first. Trigger Warning for those who are squeamish. The image should pop within the experiment. Then next line 41 should look like this:
 
- result = container.execute(my_container.uuid, 'python /root/image_model/model.py --model model_200_quant_updated.tflite --label labels.txt --image 1.jpg ')
-print(result['output'])
+ < result = container.execute(my_container.uuid, 'python /root/image_model/model.py --model model_200_quant_updated.tflite --label labels.txt --image 1.jpg ')
+print(result['output']) >
 
 If done correctly, you should get your predictions once you run line 41. Repeat line 36 and 41 for all ten test images. Be sure to change the image name or you will be testing the same image multiple times. Once you excute all the test for the basic edge device you can restart the experiment this time using the other model called model_quant_updated_edgetpu.tflite for the faster edge device. Make sure to record all the inference times! 
 
@@ -99,14 +99,43 @@ Other than that small but major change GPU + optimizations runs similar and disp
 
 ### Set up resources at KVM@TACC
 We're almost there!!
-set up stuff
+
+Those transfer times won't make themselves, so we must start up our network emulation of LAN, local area network. For this part you won't need a lease but rather [Instances](https://kvm.tacc.chameleoncloud.org/project/instances/). Once you have your instances, follow the [Network Emulation experiment](https://github.com/teaching-on-testbeds/network-emulation) guide on a Chameleoen Jupyter Interface. For the last time in this experiment, be sure to upload those images to the images tab in the Juptyer notebook. Within this guide you will learn about Romeo and Juliet, the transferring of files from Juliet to Romeo.
+
 ### Measure network transfer times at KVM@TACC
-set it up how it is on my computer
+You will need to open a terminal for this apart of the experiment. It's important to note wether you are in Romeo or Juliet through this experiement. When you get lines 21-23, some commands will print under the cell these are meant to be put into sperate terminal one at a time. Once all the cells are ran up until delete resources we must create our two ethernet cases. 
+
+For the Good Ethernet Case/ High Quality LAN print this in a new cell:
+<
+remote_router.run('sudo tc qdisc del dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") root')
+remote_router.run('sudo tc qdisc del dev $(ip route get 10.10.1.100 | grep -oP "(?<=dev )[^ ]+") root')
+
+remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.1.100 | grep -oP "(?<=dev )[^ ]+") root netem delay 10ms')
+remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") root handle 1: htb default 3')
+remote_router.run('sudo tc class add dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") parent 1: classid 1:3 htb rate 1gbit')
+remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") parent 1:3 handle 3: bfifo limit 5000000') >
+
+Underneath this cell create a Bad Ethernet Case/ Regular LAN and print:
+
+<
+remote_router.run('sudo tc qdisc del dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") root')
+remote_router.run('sudo tc qdisc del dev $(ip route get 10.10.1.100 | grep -oP "(?<=dev )[^ ]+") root')
+
+remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.1.100 | grep -oP "(?<=dev )[^ ]+") root netem delay 20ms 3ms')
+remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") root handle 1: htb default 3')
+remote_router.run('sudo tc class add dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") parent 1: classid 1:3 htb rate 100Mbit')
+remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") parent 1:3 handle 3: bfifo limit 1000000') >
+
+The Bad Ethernet has more delays, jitter, and a smaller queue size. The Good ethernet has no jitter a bigger queue size and a smaller delay. Once these steps have been taken you can go back to 
+
+
+
+
 
 ## Notes
 
 ### References
-copy refrences from poster
+NYU Tandon School of Engineering, Center for Advanced Technology in Telecommunications, Chameleon, the Pinkerton Foundation, Center for k12 STEM Outreach Program
 
 ### Acknowledgements
 I’d like to acknowledge support of NYU TANDON, K12 STEM outreach center, The Pinkterton Foundation, and my mentors at the New York State Center for Advanced Technology in Telecommunications: Chandra Shekhar Pandey and Fatih Berkay Sarpkaya
