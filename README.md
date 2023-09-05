@@ -42,7 +42,7 @@ After conducting the experiments, we were able to conclude that GPU and TPU can 
 
 Let's start off with our Raspberry Pi 4 experiment!
 
-In order to complete this experiment you must have a lease for a Raspberry Pi 4. By accessing [GUI for CHI@Edge](https://chi.edge.chameleoncloud.org/project/container/containers), you can obtain a lease for a Raspberry Pi 4. Once you are sure you have a lease, you can run the [Edge- CPU experiment](https://github.com/teaching-on-testbeds/edge-cpu-inference/) on a Chameleon Jupyter environment. 
+In order to complete this experiment you must have a lease for a Raspberry Pi 4. By accessing [GUI for CHI@Edge](https://chi.edge.chameleoncloud.org/project/container/containers), there you can obtain a lease for a Raspberry Pi 4. Once you are sure you have a lease, you can run the [Edge- CPU experiment](https://github.com/teaching-on-testbeds/edge-cpu-inference/) on a Chameleon Jupyter environment. 
 
 Using the provided model_quant_updated.tflite., our machine learning model, and the label.txt file upload them to the image_model folder within the Jupyter environement. Also include the all test images provided into that same folder. The experiement should run pretty smoothly! Be sure to run each cell one at a time and fill in the required information. When prompted to fill the lease ID and project ID, the specfic number on the top left handside of CHI@Edge, refer back to the [GUI for CHI@Edge](https://chi.edge.chameleoncloud.org/project/container/containers)
 
@@ -50,7 +50,7 @@ Using the provided model_quant_updated.tflite., our machine learning model, and 
 
 When finding out the inference time for a particular model it's important the path used in the code is correct. If a file or folder is spelled incorrectly the experiement won't work. When you reach line 36 it should mirror this:
 
-#result = container.execute(my_container.uuid, 'python /root/image_model/model.py --model model_200_quant_updated.tflite --label labels.txt --image 1.jpg ')
+result = container.execute(my_container.uuid, 'python /root/image_model/model.py --model model_200_quant_updated.tflite --label labels.txt --image 1.jpg ')
 print(result['output'])
 
 
@@ -58,9 +58,12 @@ print(result['output'])
 
 
 ### Set up resources at CHI@UC
-first lease for rtx6000gpu
-set up server
-install machine learning
+Now for our GPU experiment!
+
+In order to complete this experiment you need another lease but for a RTX6000 GPU. Similarly you can access it at [GUI for CHI@UC](https://chi.uc.chameleoncloud.org/project/leases/), there you can obtain a lease for a RTX6000 GPU. Once you are sure you have a lease, you can run the [Cloud- GPU experiment](https://github.com/teaching-on-testbeds/cloud-gpu-inference) on a Chameleon Jupyter environment. 
+
+Using the provided , our other machine learning model spicfically for cloud, and the label.txt file upload them to the image_model folder within the Jupyter environement. Also include the all test images provided into that same folder. The experiement should run pretty smoothly! Be sure to run each cell one at a time and fill in the required information. When prompted to fill the lease ID and project ID, the specfic number on the top left handside of CHI@Edge, refer back to the [GUI for CHI@UC](https://github.com/teaching-on-testbeds/cloud-gpu-inference)
+
 ### Measure inference time at CHI@UC
 how to copy models to chi@edge provide test images etc
 add folder, name it edge, in folder put h5 model, text.txt, test images
