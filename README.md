@@ -44,16 +44,21 @@ Let's start off with our Raspberry Pi 4 experiment!
 
 In order to complete this experiment you must have a lease for a Raspberry Pi 4. By accessing [GUI for CHI@Edge](https://chi.edge.chameleoncloud.org/project/container/containers), there you can obtain a lease for a Raspberry Pi 4. Once you are sure you have a lease, you can run the [Edge- CPU experiment](https://github.com/teaching-on-testbeds/edge-cpu-inference/) on a Chameleon Jupyter environment. 
 
-Using the provided model_quant_updated.tflite , our machine learning model, and the label.txt file upload them to the image_model folder within the Jupyter environement. Also include the all test images provided into that same folder. The experiement should run pretty smoothly! Be sure to run each cell one at a time and fill in the required information. When prompted to fill the lease ID and project ID, the specfic number on the top left handside of CHI@Edge, refer back to the [GUI for CHI@Edge](https://chi.edge.chameleoncloud.org/project/container/containers)
+Using the provided model_quant_updated.tflite , our machine learning model, and the label.txt file upload them to the image_model folder within the Jupyter environement. Also include  all ten test images provided in the image folder. The experiement should run pretty smoothly! Be sure to run each cell one at a time and fill in the required information. When prompted to fill the lease ID and project ID, the specfic number on the top left handside of CHI@Edge, refer back to the [GUI for CHI@Edge](https://chi.edge.chameleoncloud.org/project/container/containers)
 
 ### Measure inference time at CHI@Edge
 
 When finding out the inference time for a particular model it's important the path used in the code is correct. If a file, folder, and or model is spelled incorrectly the experiement won't work. When you reach line 36 it should mirror something similar to this:
 
-<result = container.execute(my_container.uuid, 'python /root/image_model/model.py --model model_200_quant_updated.tflite --label labels.txt --image 1.jpg ')
-print(result['output'])>
+< from IPython.display import Image
+Image('image_model/1.jpg') >
 
-Repeat line 36 for all ten test images. Be sure to change the image name or you will be testing the same image multiple times. Once you excute all the test for the basic edge device you can restart the experiment this time using the other model called model_quant_updated_edgetpu.tflite for the faster edge device. Make sure to record all 20 inference times! 
+We want the model to know exacty what image to run first. Trigger Warning for those who are squeamish. The image should pop within the experiment. Then next line 41 should look like this:
+
+< result = container.execute(my_container.uuid, 'python /root/image_model/model.py --model model_200_quant_updated.tflite --label labels.txt --image 1.jpg ')
+print(result['output']) >
+
+If done correctly, you should get your predictions once you run line 41. Repeat line 36 and 41 for all ten test images. Be sure to change the image name or you will be testing the same image multiple times. Once you excute all the test for the basic edge device you can restart the experiment this time using the other model called model_quant_updated_edgetpu.tflite for the faster edge device. Make sure to record all the inference times! 
 
 
 ### Set up resources at CHI@UC
@@ -61,13 +66,39 @@ Now for our GPU experiment!
 
 In order to complete this experiment you need another lease but for a RTX6000 GPU. Similarly you can access it at [GUI for CHI@UC](https://chi.uc.chameleoncloud.org/project/leases/), there you can obtain a lease for a RTX6000 GPU. Once you are sure you have a lease, you can run the [Cloud- GPU experiment](https://github.com/teaching-on-testbeds/cloud-gpu-inference) on a Chameleon Jupyter environment. 
 
-Using the provided model.h5 , the specfic machine learningmodel for GPU  and the label.txt file again upload them to the image_model folder within the Jupyter environement. Also include the all test images provided into that same folder. The experiement should run pretty smoothly! Be sure to run each cell one at a time and fill in the required information. When prompted to fill the lease ID and project ID, the specfic number on the top left handside of CHI@UC, refer back to the [GUI for CHI@UC](https://github.com/teaching-on-testbeds/cloud-gpu-inference)
+Using the provided model ,model.h5, and the label.txt file again upload them to the image_model folder within the Jupyter environement. Also include the all test images provided from the previous image folder. This experiement will take a little longer! Be sure to run each cell one at a time and fill in the required information. When prompted to fill the lease ID and project ID, the specfic number on the top left handside of CHI@UC, refer back to the [GUI for CHI@UC](https://github.com/teaching-on-testbeds/cloud-gpu-inference)
+
+For this experiemnt we must edit model.py for it to run properly since it'll need the correct trained model to identfiy the images. Around line 16 your code should look something similar to this:
+
+< model = tf.keras.saving.load_model('model.h5')
+@tf.function
+def serve(x):
+  return model(x, training=False) >
+
 
 ### Measure inference time at CHI@UC
-how to copy models to chi@edge provide test images etc
-add folder, name it edge, in folder put h5 model, text.txt, test images
+Similarly to CHI@Edge at line 36 and 41 is where all the magic happens!
+
+When you reach line 36 it should mirror something similar to this:
+
+< from IPython.display import Image
+Image('image_model/1.jpg') >
+
+We want the model to know exacty what image to run first. Once again trigger warning for those who are squeamish. The image should pop within the experiment. Then next line 41 should look like this:
+
+< node.run('python /home/cc/image_model/model.py') >
+
+If done correctly, you should get your predictions once you run line 41. Repeat line 36 and 41 for all ten test images. Record transfer times, the time above the predictions. There will be other numbers next to the predictions. These numbers are the model's confidence in its prediction. The closer to 1 the more confident it is in its prediction. When running the other test images be sure to change the image name or you will be testing the same image multiple times. Once you excute all the test for the regular GPU, you can continue further down to the GPU+ optimizations. Optimizations are added feature to the GPU so they can infer faster.
+
+For our GPU with optimizations, we must edit model-convert.py. Model-convert.py around 15 should look like: 
+
+< model = tf.keras.saving.load_model('model.h5') >
+
+Other than that small but major change GPU + optimizations runs similar and displays prediction the same. Record your response times! After all your experiements are done be sure to follow the instructions to delete the servers/containers and free the IP ID.
+
 
 ### Set up resources at KVM@TACC
+We're almost there!!
 set up stuff
 ### Measure network transfer times at KVM@TACC
 set it up how it is on my computer
