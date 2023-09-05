@@ -106,25 +106,32 @@ Those transfer times won't make themselves, so we must start up our network emul
 You will need to open a terminal for this apart of the experiment. It's important to note wether you are in Romeo or Juliet through this experiement. When you get lines 21-23, some commands will print under the cell these are meant to be put into sperate terminal one at a time. Once all the cells are ran up until delete resources we must create our two ethernet cases. 
 
 For the Good Ethernet Case/ High Quality LAN print this in a new cell:
-<
+
+
 remote_router.run('sudo tc qdisc del dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") root')
 remote_router.run('sudo tc qdisc del dev $(ip route get 10.10.1.100 | grep -oP "(?<=dev )[^ ]+") root')
 
 remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.1.100 | grep -oP "(?<=dev )[^ ]+") root netem delay 10ms')
 remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") root handle 1: htb default 3')
 remote_router.run('sudo tc class add dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") parent 1: classid 1:3 htb rate 1gbit')
-remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") parent 1:3 handle 3: bfifo limit 5000000') >
+remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") parent 1:3 handle 3: bfifo limit 5000000') 
+
+
 
 Underneath this cell create a Bad Ethernet Case/ Regular LAN and print:
 
-<
+
+
 remote_router.run('sudo tc qdisc del dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") root')
 remote_router.run('sudo tc qdisc del dev $(ip route get 10.10.1.100 | grep -oP "(?<=dev )[^ ]+") root')
 
 remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.1.100 | grep -oP "(?<=dev )[^ ]+") root netem delay 20ms 3ms')
 remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") root handle 1: htb default 3')
 remote_router.run('sudo tc class add dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") parent 1: classid 1:3 htb rate 100Mbit')
-remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") parent 1:3 handle 3: bfifo limit 1000000') >
+remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.2.100 | grep -oP "(?<=dev )[^ ]+") parent 1:3 handle 3: bfifo limit 1000000') 
+
+
+
 
 The Bad Ethernet has more delays, jitter, and a smaller queue size. The Good ethernet has no jitter a bigger queue size and a smaller delay. Once these steps have been taken you can go back to 
 
