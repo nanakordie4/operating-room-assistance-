@@ -50,13 +50,13 @@ Using the provided model_quant_updated.tflite , our machine learning model, and 
 
 When finding out the inference time for a particular model it's important the path used in the code is correct. If a file, folder, and or model is spelled incorrectly the experiement won't work. When you reach line 36 it should mirror something similar to this:
 
-< from IPython.display import Image
-Image('image_model/1.jpg') >
+ from IPython.display import Image
+Image('image_model/1.jpg') 
 
 We want the model to know exacty what image to run first. Trigger Warning for those who are squeamish. The image should pop within the experiment. Then next line 41 should look like this:
 
-< result = container.execute(my_container.uuid, 'python /root/image_model/model.py --model model_200_quant_updated.tflite --label labels.txt --image 1.jpg ')
-print(result['output']) >
+ result = container.execute(my_container.uuid, 'python /root/image_model/model.py --model model_200_quant_updated.tflite --label labels.txt --image 1.jpg ')
+print(result['output'])
 
 If done correctly, you should get your predictions once you run line 41. Repeat line 36 and 41 for all ten test images. Be sure to change the image name or you will be testing the same image multiple times. Once you excute all the test for the basic edge device you can restart the experiment this time using the other model called model_quant_updated_edgetpu.tflite for the faster edge device. Make sure to record all the inference times! 
 
