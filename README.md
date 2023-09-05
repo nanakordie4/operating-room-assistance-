@@ -40,9 +40,12 @@ After conducting the experiments, we were able to conclude that GPU and TPU can 
 
 ### Set up resources at CHI@Edge
 
-first least for raspi4
-set up server
-insteall ml
+Let's start off with our Raspberry Pi 4 experiment!
+
+In order to complete this experiment you must have a lease for a Raspberry Pi 4. By accessing [GUI for CHI@Edge](https://chi.edge.chameleoncloud.org/project/container/containers), you can obtain a lease for a Raspberry Pi 4. Once you are sure you have a lease, you can run the [Edge- CPU experiment](https://github.com/teaching-on-testbeds/edge-cpu-inference/) on a Chameleon Jupyter environment. 
+
+Using the provided model_quant_updated.tflite., our machine learning model, and the label.txt file upload them to the image_model folder within the Jupyter environement. The experiement should run pretty smoothly! Be sure to run each cell one at a time and fill in the required information. When prompted to fill the lease ID and project ID, the specfic number on the top left handside of CHI@Edge, refer back to the [GUI for CHI@Edge](https://chi.edge.chameleoncloud.org/project/container/containers)
+
 ### Measure inference time at CHI@Edge
 how to copy models to chi@edge provide test images etc
 add folder, name it edge, in folder put basic tflite model edgetpu, text.txt, test images
