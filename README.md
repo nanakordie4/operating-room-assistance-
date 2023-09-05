@@ -133,7 +133,7 @@ remote_router.run('sudo tc qdisc add dev $(ip route get 10.10.2.100 | grep -oP "
 
 
 
-The Bad Ethernet has more delays, jitter, and a smaller queue size. The Good ethernet has no jitter a bigger queue size and a smaller delay. Once these steps have been taken you can go back to 
+The Bad Ethernet has more delays, jitter, and a smaller queue size. The Good ethernet has no jitter, a bigger queue size, and a smaller delay. Once these steps have been taken you can go back to 
 
 
 
