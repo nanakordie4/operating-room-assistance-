@@ -1,5 +1,3 @@
-# operating-room-assistance-
-
 # Evaluating Edge & Cloud Computing in the Operating Room
 
 This experiment explores the tradeoff between Edge and Cloud computing for real-time assitance in the operating room.
